@@ -1,4 +1,4 @@
-MAKEFILE	:=	makefile
+MAKEFILE	:=	Makefile
 
 #---------------------------------------------------------------------------------
 # Clear the implicit built in rules
@@ -32,8 +32,8 @@ include $(DEVKITARM)/gba_rules
 	@echo linking multiboot CUSTOM
 	@$(LD) $(LDFLAGS) -specs=../src/gba_mb_my.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
 %.elf:
-	@echo linking cartridge CUSTOM
-	@$(LD)  $(LDFLAGS) -specs=../src/gba_my.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
+	@echo linking cartridge CUSTOM $(OFILES2)
+	@$(LD)  $(LDFLAGS) -specs=../src/gba_my.specs $(OFILES2) $(LIBPATHS) $(LIBS) -o $@
 
 #-------
 
@@ -124,6 +124,7 @@ endif
 #---------------------------------------------------------------------------------
 
 export OFILES	:= $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o) $(DATA1:.lz77=.o) $(DATA2:.bin=.o) $(DATA3:.gba=.o)
+export OFILES2	:= $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o) $(DATA1).o $(DATA2).o $(DATA3:.gba=.o)
 
 #---------------------------------------------------------------------------------
 # build a list of include paths
@@ -170,7 +171,6 @@ DEPENDS	:=	$(OFILES:.o=.d)
 %.o	:	%.gba
 	@echo $(notdir $<)
 	@$(bin2o)
-
 
 #---------------------------------------------------------------------------------
 # main targets
