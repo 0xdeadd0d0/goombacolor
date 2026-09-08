@@ -1,0 +1,13 @@
+#ifndef GOOMBACHT_H
+#define GOOMBACHT_H
+
+#include "cheats.h"
+{% for cheat in cheats %}const cheat {{ cheat.varname }} = { {{ cheat.cheat_desc }}, {{ cheat.cheat_size }}, { {% for raw_cheat in cheat.cheat_codes %}{ .type = {{ raw_cheat.cheat_type }}, .code.cht_raw = 0x{{ raw_cheat.cheat_code_raw }} },{% endfor %} } };
+{% endfor %}
+
+const cheat * const cheat_codes[] = {
+{% for cheat in cheats %} &{{ cheat.varname }},
+{% endfor %}
+};
+
+#endif
