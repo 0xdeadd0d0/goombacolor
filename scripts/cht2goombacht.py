@@ -4,28 +4,34 @@ import configparser
 from enum import Enum
 from jinja2 import Template
 
-
-class Color(Enum):
-    INVALID_TYPE = 0
-    GAME_GENIE = 1
-    GAME_SHARK = 2
-    CHEAT_TYPE_MAX = 3
-
-
 def convert_cheat_codes(cheat_codes):
     gen_cheat_codes = []
 
-    for cheat in cheat_codes:
-        if "-" in cheat:
-            cheat = cheat.replace("-", "")[1:]
-            cheat_type = "GAME_SHARK"
-        else:
-            cheat_type = "GAME_GENIE"
-        gen_cheat_codes.append(
-            {
-                "cheat_type": cheat_type, "cheat_code_raw": cheat
-            }
-        )
+    if len(cheat_codes) > 2:
+        cheat_codes = cheat_codes.replace("-", "")
+        cheat_codes = cheat_codes[1:-1].split("+")
+        for cheat in cheat_codes:
+            match len(cheat):
+                case 9:
+                    cheat_type = "GAME_GENIE"
+                    rom_addr = f"{cheat[6]}{cheat[2]}{int(cheat[5], 16)^0xF}{cheat[4]}"
+                    new_val = f"{cheat[1]}{cheat[0]}"
+                    old_val = f"{cheat[8]}{int(cheat[7], 16)^0x2}"
+                    cheat = f"{rom_addr}{new_val}{old_val}"
+                case 8:
+                    cheat_type = "GAME_SHARK"
+                case 6:
+                    cheat_type = "GAME_GENIE_6"
+                    cheat = f"{cheat}00"
+                case _:
+                    print("invalid code format...")
+                    return []
+            cheat = f"{cheat[0]}{cheat[1]}{cheat[2]}{cheat[3]}{cheat[6]}{cheat[7]}{cheat[4]}{cheat[5]}"
+            gen_cheat_codes.append(
+                {
+                    "cheat_type": cheat_type, "cheat_code_raw": cheat
+                }
+            )
     return gen_cheat_codes
 
 # Initialize the built-in parser
@@ -50,19 +56,17 @@ for i in range(total_cheats):
         cheat_desc = f"cheat{i}"
     elif len(cheat_desc) > 66:
         cheat_desc = "".join((cheat_desc[:65], "\""))
-    if len(cheat_codes) > 2:
-        cheat_codes = cheat_codes[1:-1].split("+")
-    else:
-        total_cheats = total_cheats - 1
+    cheat_codes = convert_cheat_codes(cheat_codes)
+    if len(cheat_codes) == 0:
         continue
     print(f"desc: {cheat_desc}\ncode:{cheat_codes}")
     data_base["cheats"].append(
         {
-            "varname": f"cheat{i}", "cheat_desc": cheat_desc, "cheat_size": len(cheat_codes), "cheat_codes": convert_cheat_codes(cheat_codes)
+            "varname": f"cheat{i}", "cheat_desc": cheat_desc, "cheat_size": len(cheat_codes), "cheat_codes": cheat_codes
         }
     )
 
-print(f"Total cheats valid: {total_cheats}")
+print(f"Total cheats valid: {len(data_base["cheats"])}")
 
 # Charger et compiler le template
 with open("goombacht.h.j2") as f:
