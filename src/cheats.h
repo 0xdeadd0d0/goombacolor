@@ -12,16 +12,16 @@
 // bank = 0x01   (for multi bank 0 to 7: 0x90 to 0x97)
 
 typedef enum cht_type {
-    INVALID_TYPE, GAME_GENIE, GAME_SHARK, CHEAT_TYPE_MAX
+    INVALID_TYPE, GAME_GENIE, GAME_GENIE_6, GAME_SHARK, CHEAT_TYPE_MAX
 } cheat_type;
 
-typedef struct cht_game_genie {
+typedef struct __attribute__((packed)) cht_game_genie {
     u16 addr;
     u8 new_val;
     u8 old_val;
 } cht_game_genie;
 
-typedef struct cht_game_shark {
+typedef struct __attribute__((packed)) cht_game_shark {
     u16 addr;
     u8 new_val;
     u8 bank;
@@ -43,5 +43,7 @@ typedef struct cheat {
     u8 cht_size;
     cht_pld codes[];
 } cheat;
+
+void vblank_apply_ram_patch(void);
 
 #endif // CHEATS_H_

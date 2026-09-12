@@ -160,6 +160,7 @@
 	global_func transfer_palette
 	global_func update_sgb_palette
 	global_func newframe
+	global_func vblank_apply_ram_patch
 	.global lcdstate
 	.global gammavalue
 	.global palettebank
@@ -1628,7 +1629,8 @@ canary_value_doesnt_match:
 	bl consume_recent_tiles
 	bl consume_dirty_tiles
 	bl_long force_ui_at_top
-	
+
+	bl vblank_apply_ram_patch
 	ldr r0,=do_gba_hdma
 	str r0,vcountfptr
 
