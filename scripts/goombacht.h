@@ -230,12 +230,12 @@ const cheat cheat224 = { "Max Special Defense [Larger]", 1, { { .type = GAME_SHA
 const cheat cheat225 = { "Max Special Defense [Smaller]", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0100DDFC }, } };
 const cheat cheat226 = { "Max Speed [Larger]", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0100DDFD }, } };
 const cheat cheat227 = { "Max Speed [Smaller]", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0100DDFE }, } };
-const cheat cheat229 = { "Your Starting Pokemon Will Be Level 10 (Instead of Level 5) (Onl", 1, { { .type = GAME_GENIE, .code.cht_raw = 0xFC46E5A0 }, } };
-const cheat cheat230 = { "Your Starting Pokemon Will Be Level 20 (Instead of Level 5) (Onl", 1, { { .type = GAME_GENIE, .code.cht_raw = 0xFC46E541 }, } };
-const cheat cheat231 = { "Your Starting Pokemon Will Be Level 50 (Instead of Level 5) (Onl", 1, { { .type = GAME_GENIE, .code.cht_raw = 0xFC46E523 }, } };
+const cheat cheat229 = { "Your Starting Pokemon Will Be Level 10 (Instead of Level 5) (Onl", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x50A4CE6 }, } };
+const cheat cheat230 = { "Your Starting Pokemon Will Be Level 20 (Instead of Level 5) (Onl", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x5144CE6 }, } };
+const cheat cheat231 = { "Your Starting Pokemon Will Be Level 50 (Instead of Level 5) (Onl", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x5324CE6 }, } };
 const cheat cheat232 = { "Start With Any Pokemon!!", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x01E5FB91 }, } };
-const cheat cheat233 = { "Start The Game With Any Pokemon You Want", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x9C450379 }, } };
-const cheat cheat234 = { "Infinite Health", 1, { { .type = GAME_GENIE, .code.cht_raw = 0xFD547500 }, } };
+const cheat cheat233 = { "Start The Game With Any Pokemon You Want", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x9E974CE5 }, } };
+const cheat cheat234 = { "Infinite Health", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x47005D94 }, } };
 const cheat cheat7740 = { "Pokémon Modifier", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0100DCD8 }, } };
 const cheat cheat7741 = { "HP Modifier (Larger)", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0100DD01 }, } };
 const cheat cheat7742 = { "HP Modifier (Smaller)", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0100DD02 }, } };
@@ -494,10 +494,10 @@ const cheat cheat8023 = { "Slot 17", 1, { { .type = GAME_SHARK, .code.cht_raw = 
 const cheat cheat8024 = { "Slot 18", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0163D8B6 }, } };
 const cheat cheat8025 = { "Slot 19", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0163D8B8 }, } };
 const cheat cheat8026 = { "Slot 20", 1, { { .type = GAME_SHARK, .code.cht_raw = 0x0163D8BA }, } };
-const cheat cheat8027 = { "No Random Battles", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x206AA881 }, } };
-const cheat cheat8028 = { "Opponent Doesn't Attack", 1, { { .type = GAME_GENIE, .code.cht_raw = 0xD64ED79C }, } };
-const cheat cheat8029 = { "One Hit Kills", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x2D59A8E3 }, } };
-const cheat cheat8030 = { "Skip Trainer Battles", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x886C6200 }, } };
+const cheat cheat8027 = { "No Random Battles", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x301860EA }, } };
+const cheat cheat8028 = { "Opponent Doesn't Attack", 1, { { .type = GAME_GENIE, .code.cht_raw = 0xCDC946DE }, } };
+const cheat cheat8029 = { "One Hit Kills", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x303E5D49 }, } };
+const cheat cheat8030 = { "Skip Trainer Battles", 1, { { .type = GAME_GENIE, .code.cht_raw = 0x1B00682C }, } };
 
 
 const cheat * const cheat_codes[] = {

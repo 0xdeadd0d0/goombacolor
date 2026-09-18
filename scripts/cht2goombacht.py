@@ -4,6 +4,22 @@ import configparser
 from enum import Enum
 from jinja2 import Template
 
+
+def ror(n, d, int_bits=32):
+    return (n >> d)|(n << (int_bits - d)) & 0xFFFFFFFF
+
+def convert_gg2goombacht(cheat, cheat_type):
+    cheat_type = cheat_type
+    rom_addr = f"{int(cheat[5], 16)^0xF}{cheat[2]}{cheat[3]}{cheat[4]}"
+    new_val = f"{cheat[0]}{cheat[1]}"
+    reverted_new_val = int(f"{cheat[1]}{cheat[0]}", 16)
+    old_val = int(f"{cheat[6]}{cheat[8]}", 16)
+    old_val = ror(old_val, 2, 8)
+    old_val = old_val | (old_val >> 24)
+    old_val = old_val ^ 0xBA
+    old_val = old_val & 0xFF
+    return f"{old_val:x}{new_val}{rom_addr}"
+
 def convert_cheat_codes(cheat_codes):
     gen_cheat_codes = []
 
@@ -12,24 +28,22 @@ def convert_cheat_codes(cheat_codes):
         cheat_codes = cheat_codes[1:-1].split("+")
         for cheat in cheat_codes:
             match len(cheat):
-                case 9:
-                    cheat_type = "GAME_GENIE"
-                    rom_addr = f"{cheat[6]}{cheat[2]}{int(cheat[5], 16)^0xF}{cheat[4]}"
-                    new_val = f"{cheat[1]}{cheat[0]}"
-                    old_val = f"{cheat[8]}{int(cheat[7], 16)^0x2}"
-                    cheat = f"{rom_addr}{new_val}{old_val}"
-                case 8:
-                    cheat_type = "GAME_SHARK"
                 case 6:
                     cheat_type = "GAME_GENIE_6"
                     cheat = f"{cheat}00"
+                    cheat = convert_gg2goombacht(cheat, cheat_type)
+                case 9:
+                    cheat_type = "GAME_GENIE"
+                    cheat = convert_gg2goombacht(cheat, cheat_type)
+                case 8:
+                    cheat_type = "GAME_SHARK"
+                    cheat = f"{cheat[0]}{cheat[1]}{cheat[2]}{cheat[3]}{cheat[6]}{cheat[7]}{cheat[4]}{cheat[5]}"
                 case _:
                     print("invalid code format...")
                     return []
-            cheat = f"{cheat[0]}{cheat[1]}{cheat[2]}{cheat[3]}{cheat[6]}{cheat[7]}{cheat[4]}{cheat[5]}"
             gen_cheat_codes.append(
                 {
-                    "cheat_type": cheat_type, "cheat_code_raw": cheat
+                    "cheat_type": cheat_type, "cheat_code_raw": cheat.upper()
                 }
             )
     return gen_cheat_codes
