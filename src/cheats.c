@@ -14,10 +14,6 @@ void vblank_apply_ram_patch(void)
         {
             ram_addr = &XGB_RAM[cheat1.codes[i].code.cht_gs.addr - 0xC000];
             *ram_addr = cheat1.codes[i].code.cht_gs.new_val;
-            if (cheat1.codes[i].code.cht_gs.bank != 0x01)
-            {
-                vblank_apply_ram_patch();
-            }
         }
     }
 }
