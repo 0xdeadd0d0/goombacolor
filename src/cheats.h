@@ -44,6 +44,9 @@ typedef struct cheat {
     cht_pld codes[];
 } cheat;
 
+void init_cheat_database(void);
+bool disable_cheat(const cheat *rm_cheat);
+bool enable_cheat(const cheat *new_cheat);
 void vblank_apply_ram_patch(void);
 
 #endif // CHEATS_H_
