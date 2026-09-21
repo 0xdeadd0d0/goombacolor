@@ -44,6 +44,13 @@ typedef struct cheat {
     cht_pld codes[];
 } cheat;
 
+typedef struct cheat_db_entry {
+    u32 rom_crc32;
+    char rom_name[64];
+    u32 nb_cheats;
+    cheat const *cheat_codes[];
+} cheat_db_entry;
+
 void init_cheat_database(void);
 bool disable_cheat(const cheat *rm_cheat);
 bool enable_cheat(const cheat *new_cheat);

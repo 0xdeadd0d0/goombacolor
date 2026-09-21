@@ -59,6 +59,8 @@ with open(f_name, "r", encoding="utf-8") as f:
 # Access data directly like a dictionary / JSON object
 total_cheats = int(config.get("DEFAULT", "cheats"))
 data_base = { "game_name": f_name, "cheats": []}
+data_base["rom_crc32"] = "0xDEADD0D0"
+data_base["rom_name"] = "Pokemon - Crystal Version (USA, Europe) (Rev 1).gbc"
 
 print(f"Total cheats found: {total_cheats}")
 
@@ -80,6 +82,7 @@ for i in range(total_cheats):
         }
     )
 
+data_base["nb_cheats"] = f"{len(data_base["cheats"])}"
 print(f"Total cheats valid: {len(data_base["cheats"])}")
 
 # Charger et compiler le template

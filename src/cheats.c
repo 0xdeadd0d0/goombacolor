@@ -5,12 +5,14 @@
 #define MAX_CHEAT 16
 
 EWRAM_BSS const cheat *cheat_list[MAX_CHEAT];
-EWRAM_BSS const cheat * const *cheat_db;
+EWRAM_BSS const cheat_db_entry * cheat_db;
 
 void init_cheat_database(void)
 {
-    cheat_db = cheat_codes;
-    enable_cheat(cheat_db[1]);
+    cheat_db = &cheat_db_entry0;
+    /* Test infinite Money + all Badges */
+    enable_cheat(cheat_db->cheat_codes[0]);
+    enable_cheat(cheat_db->cheat_codes[1]);
 }
 
 bool enable_cheat(const cheat *new_cheat)
@@ -56,7 +58,12 @@ bool disable_cheat(const cheat *rm_cheat)
     return status;
 }
 
-/* Test apply simple multiline GS cheat code */
+/* Test apply simple multiline GS cheat code
+ * TODO: find the best place to apply patchs
+ * TODO: find the best way to apply the patchs
+ * TODO: add ram bank support for RAM patch
+ * TODO: add rom patch support (GAME_GENIE)
+ */
 void vblank_apply_ram_patch(void)
 {
     int i, j;
