@@ -52,8 +52,10 @@ typedef struct cheat_db_entry {
 } cheat_db_entry;
 
 void init_cheat_database(void);
-bool disable_cheat(const cheat *rm_cheat);
-bool enable_cheat(const cheat *new_cheat);
+bool remove_cheat(const cheat *rm_cheat);
+bool add_cheat(const cheat *new_cheat);
+void enable_cheats(void);
+void disable_cheats(void);
 void vblank_apply_ram_patch(void);
 
 #endif // CHEATS_H_
