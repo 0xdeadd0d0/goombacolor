@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import configparser
+import ftfy
 import logging
 import pathlib
 import string
@@ -32,8 +33,15 @@ def convert_cheat_codes(cheat_codes):
         cheat_codes = cheat_codes.replace("X", "0")
         cheat_codes = cheat_codes.replace("?", "0")
         cheat_codes = cheat_codes.replace("Y", "0")
+        cheat_codes = cheat_codes.replace("Z", "0")
+        cheat_codes = cheat_codes.replace("*", "0")
         cheat_codes = cheat_codes[1:-1].split("+")
         for cheat in cheat_codes:
+            try:
+                int(cheat, 16)
+            except:
+                 logger.debug("An exception occurred")
+                 return []
             match len(cheat):
                 case 6:
                     cheat_type = "GAME_GENIE_6"
@@ -60,8 +68,10 @@ logger = logging.getLogger(__name__)
 # Initialize the built-in parser
 config = configparser.ConfigParser()
 
-cht_db_dir = pathlib.Path("./libretro-database/cht/Nintendo - Game Boy Color")
-f_names = list(cht_db_dir.rglob("*.cht"))
+cht_gbc_db_dir = pathlib.Path("./libretro-database/cht/Nintendo - Game Boy Color")
+cht_gb_db_dir = pathlib.Path("./libretro-database/cht/Nintendo - Game Boy")
+f_names = list(cht_gbc_db_dir.rglob("*.cht"))
+f_names.extend(list(cht_gb_db_dir.rglob("*.cht")))
 data_base_entry = { "data_base_entry": []}
 g_nb_cheats = 0
 file_num = 0
@@ -90,6 +100,7 @@ for f_name in f_names:
         try:
             # Read individual cheat elements safely
             cheat_desc = config.get("DEFAULT", f"cheat{i}_desc")
+            cheat_desc = ftfy.fix_text(cheat_desc)
             cheat_desc = "".join([c for c in cheat_desc if c.isalnum()])
             cheat_codes = config.get("DEFAULT", f"cheat{i}_code")
             cheat_codes = convert_cheat_codes(cheat_codes)
@@ -97,13 +108,13 @@ for f_name in f_names:
             logger.debug("An exception occurred")
             continue
         if not len(cheat_desc) > 0:
-            cheat_desc = f"\"cheat{i}\""
+            cheat_desc = f"cheat{i}"
         if len(cheat_codes) == 0:
             continue
         logger.debug(f"desc: {cheat_desc}\ncode:{cheat_codes}")
         data_base["cheats"].append(
             {
-                "varname": f"cheat{g_nb_cheats}", "cheat_desc": cheat_desc[:63], "cheat_size": len(cheat_codes), "cheat_codes": cheat_codes
+                "varname": f"cheat{g_nb_cheats}", "cheat_desc": f"{cheat_desc[:63]}", "cheat_size": len(cheat_codes), "cheat_codes": cheat_codes
             }
         )
         g_nb_cheats = g_nb_cheats + 1
