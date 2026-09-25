@@ -16,7 +16,7 @@ ram_patchs ram_patchs_chunk;
 
 void init_cheat_database(void)
 {
-    cheat_db = &cheat_db_entry0;
+    cheat_db = &cheat_db_entry913;
     /* Test infinite Money + all Badges (PKMN Crystal) */
     add_cheat(cheat_db->cheat_codes[0]);
     add_cheat(cheat_db->cheat_codes[1]);
