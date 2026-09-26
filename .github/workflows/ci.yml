@@ -17,7 +17,7 @@ jobs:
         submodules: recursive
 
     - name: Build project inside Docker
-      run: ./scripts/build_and_run.sh all
+      run: ./scripts/docker_build.sh all
 
     - name: Test Makefile clean target
-      run: ./scripts/build_and_run.sh clean
+      run: ./scripts/docker_build.sh clean
