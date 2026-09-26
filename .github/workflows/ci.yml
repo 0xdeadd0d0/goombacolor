@@ -1,0 +1,23 @@
+name: build goombacolor
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-back-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Build project inside Docker
+      run: ./scripts/build_and_run.sh all
+
+    - name: Test Makefile clean target
+      run: ./scripts/build_and_run.sh clean

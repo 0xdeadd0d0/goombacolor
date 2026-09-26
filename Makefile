@@ -49,7 +49,7 @@ TARGET		:=	jagoombacolor
 BUILD		:=	build
 SOURCES		:=	src
 INCLUDES	:=
-
+PYTHON_ENV = /opt/venv/bin/python3
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -145,7 +145,10 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/$(MAKEFILE)
 
-all	: $(BUILD)
+generate_headers:
+	$(PYTHON_ENV) ./scripts/cht2goombacht.py -s ./src/goombacht.h.j2 -o ./src/goombacht.h -l ./scripts/libretro-database/
+
+all	: generate_headers $(BUILD)
 #---------------------------------------------------------------------------------
 semiclean:
 	@echo deleting intermediate files...
@@ -154,6 +157,9 @@ semiclean:
 clean: semiclean
 	@echo deleting main binary
 	@rm -f $(TARGET).gba
+	@echo deleting generated cheats
+	@rm -f ./src/goombacht.h
+
 
 #---------------------------------------------------------------------------------
 else
