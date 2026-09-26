@@ -1,0 +1,3 @@
+[submodule "scripts/libretro-database"]
+	path = scripts/libretro-database
+	url = git@github.com:libretro/libretro-database.git

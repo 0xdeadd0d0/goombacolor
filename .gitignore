@@ -1,5 +1,6 @@
-Notes.txt
-SymbolTable.txt
-*.gba
+src/goombacht.h
+__*__.log
+*.sav
+build/
 *.elf
-build
+*.gba

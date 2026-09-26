@@ -1,0 +1,20 @@
+#ifndef GOOMBACHT_H
+#define GOOMBACHT_H
+
+#include "cheats.h"
+
+{% for db in data_base_entry %}
+{% for cheat in db.cheats %}const cheat {{ cheat.varname }} = { "{{ cheat.cheat_desc }}", {{ cheat.cheat_size }}, { {% for raw_cheat in cheat.cheat_codes %}{ .type = {{ raw_cheat.cheat_type }}, .code.cht_raw = 0x{{ raw_cheat.cheat_code_raw }} },{% endfor %} } };
+{% endfor %}
+
+const cheat_db_entry {{ db.data_base_entry_varname }} = {
+{{ db.rom_crc32 }},
+"{{ db.rom_name }}",
+{{ db.nb_cheats }},
+{
+{% for cheat in db.cheats %}&{{ cheat.varname }},
+{% endfor %}
+}};
+{% endfor %}
+
+#endif

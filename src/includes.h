@@ -31,7 +31,7 @@
 #include "cache.h"
 #include "dma.h"
 #include "pocketnes_text.h"
-
+#include "cheats.h"
 #if MOVIEPLAYER
 #include "filemenu.h"
 #endif

@@ -356,6 +356,7 @@ void C_entry()
 	//Start up interrupt system
 	GFX_init();
 	vblankfptr=&vblankinterrupt;
+    init_cheat_database();
 	
 
 

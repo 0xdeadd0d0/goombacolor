@@ -1,4 +1,4 @@
-MAKEFILE	:=	makefile
+MAKEFILE	:=	Makefile
 
 #---------------------------------------------------------------------------------
 # Clear the implicit built in rules
@@ -32,8 +32,8 @@ include $(DEVKITARM)/gba_rules
 	@echo linking multiboot CUSTOM
 	@$(LD) $(LDFLAGS) -specs=../src/gba_mb_my.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
 %.elf:
-	@echo linking cartridge CUSTOM
-	@$(LD)  $(LDFLAGS) -specs=../src/gba_my.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
+	@echo linking cartridge CUSTOM $(OFILES2)
+	@$(LD)  $(LDFLAGS) -specs=../src/gba_my.specs $(OFILES2) $(LIBPATHS) $(LIBS) -o $@
 
 #-------
 
@@ -49,7 +49,7 @@ TARGET		:=	jagoombacolor
 BUILD		:=	build
 SOURCES		:=	src
 INCLUDES	:=
-
+PYTHON_ENV = /opt/venv/bin/python3
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -124,6 +124,7 @@ endif
 #---------------------------------------------------------------------------------
 
 export OFILES	:= $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o) $(DATA1:.lz77=.o) $(DATA2:.bin=.o) $(DATA3:.gba=.o)
+export OFILES2	:= $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o) $(DATA1).o $(DATA2).o $(DATA3:.gba=.o)
 
 #---------------------------------------------------------------------------------
 # build a list of include paths
@@ -144,7 +145,10 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/$(MAKEFILE)
 
-all	: $(BUILD)
+generate_headers:
+	$(PYTHON_ENV) ./scripts/cht2goombacht.py -s ./src/goombacht.h.j2 -o ./src/goombacht.h -l ./scripts/libretro-database/
+
+all	: generate_headers $(BUILD)
 #---------------------------------------------------------------------------------
 semiclean:
 	@echo deleting intermediate files...
@@ -153,6 +157,9 @@ semiclean:
 clean: semiclean
 	@echo deleting main binary
 	@rm -f $(TARGET).gba
+	@echo deleting generated cheats
+	@rm -f ./src/goombacht.h
+
 
 #---------------------------------------------------------------------------------
 else
@@ -170,7 +177,6 @@ DEPENDS	:=	$(OFILES:.o=.d)
 %.o	:	%.gba
 	@echo $(notdir $<)
 	@$(bin2o)
-
 
 #---------------------------------------------------------------------------------
 # main targets
